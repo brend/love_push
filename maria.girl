@@ -1,0 +1,5 @@
+girl 'Maria'
+
+offer [S, A, C], [O, X, E]
+offer [A, C], [X, E]
+offer [D, S, C], [O, E, O]

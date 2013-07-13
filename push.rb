@@ -159,12 +159,62 @@ class Tree
   end
 end
 
+class Girl
+  attr_accessor :name
+  
+  def initialize
+    @offerings = []
+    @name = nil
+  end
+  
+  def add_offering(o)
+    @offerings << o
+  end
+  
+  def analyze
+    1.upto(100) do
+      change = false
+      @offerings.each do |o|
+        change |= o.restrict
+      end
+      # return unless change
+    end
+  end
+  
+  def to_s
+    name
+  end
+end
+
 S = Variable.new('s')
 A = Variable.new('a')
 C = Variable.new('c')
+D = Variable.new('d')
 
-# Debug
-puts "Vorher. p(a) = #{A.possible_values}, p(c) = #{C.possible_values}"
-r = Offering.new([A, C], [X, E])
-r.restrict
-puts "Nachher. p(a) = #{A.possible_values}, p(c) = #{C.possible_values}"
+all_variables = [S, A, C, D]
+
+def girl(name)
+  $g = Girl.new
+  $g.name = name
+  
+  puts "You are pushing #{$g.name}."
+end
+
+def offer(gift, reaction)
+  $g.add_offering(Offering.new(gift, reaction))
+  
+  puts "You give her #{gift.inspect}, she reacts #{reaction.inspect}."
+end
+
+# Do it!!
+if ARGV.empty?
+  puts "Usage: <script> <girl file>"
+  exit
+end
+
+load ARGV.first
+
+$g.analyze
+
+puts "This is what I inferred about her preferences:"
+all_variables.each {|var| puts "#{var}: #{var.possible_values.inspect}"}
