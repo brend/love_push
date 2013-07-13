@@ -186,12 +186,18 @@ class Girl
   end
 end
 
-S = Variable.new('s')
-A = Variable.new('a')
-C = Variable.new('c')
-D = Variable.new('d')
+たべもの = Variable.new('たべもの')
+ファション = Variable.new('ファション')
+インテリア = Variable.new('インテリア')
+どうぐ = Variable.new('どうぐ')
+しゅみ = Variable.new('しゅみ')
+かわいい = Variable.new('かわいい')
+クール = Variable.new('クール')
+アダルト = Variable.new('アダルト')
+ゴージャス = Variable.new('ゴージャス')
+ちんぴん = Variable.new('ちんぴん')
 
-all_variables = [S, A, C, D]
+all_variables = [たべもの,ファション,インテリア,どうぐ,しゅみ,かわいい,クール,アダルト,ゴージャス,ちんぴん]
 
 def girl(name)
   $g = Girl.new
