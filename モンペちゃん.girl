@@ -1,0 +1,19 @@
+girl 'モンペちゃん'
+
+offer Shumi, Kawaii
+reaction O, O
+
+offer Tabemono, Kawaii
+reaction O, O
+
+offer Tabemono, Kawaii, Chinpin
+reaction O, O, X
+
+offer Shumi, Kuuru
+reaction O, O, O
+
+offer Tabemono, Adaruto
+reaction O, X
+
+offer Tabemono, Kuuru
+reaction O, O

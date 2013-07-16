@@ -172,7 +172,7 @@ class Girl
   end
   
   def analyze
-    1.upto(100) do
+    1.upto(500) do
       change = false
       @offerings.each do |o|
         change |= o.restrict
@@ -186,18 +186,18 @@ class Girl
   end
 end
 
-たべもの = Variable.new('たべもの')
-ファション = Variable.new('ファション')
-インテリア = Variable.new('インテリア')
-どうぐ = Variable.new('どうぐ')
-しゅみ = Variable.new('しゅみ')
-かわいい = Variable.new('かわいい')
-クール = Variable.new('クール')
-アダルト = Variable.new('アダルト')
-ゴージャス = Variable.new('ゴージャス')
-ちんぴん = Variable.new('ちんぴん')
+Tabemono = Variable.new('Tabemono')
+Fashon = Variable.new('Fashon')
+Interia = Variable.new('Interia')
+Dougu = Variable.new('Dougu')
+Shumi = Variable.new('Shumi')
+Kawaii = Variable.new('Kawaii')
+Kuuru = Variable.new('Kuuru')
+Adaruto = Variable.new('Adaruto')
+Goujasu = Variable.new('Goujasu')
+Chinpin = Variable.new('Chinpin')
 
-all_variables = [たべもの,ファション,インテリア,どうぐ,しゅみ,かわいい,クール,アダルト,ゴージャス,ちんぴん]
+all_variables = [Tabemono,Fashon,Interia,Dougu,Shumi,Kawaii,Kuuru,Adaruto,Goujasu,Chinpin]
 
 def girl(name)
   $g = Girl.new
@@ -206,10 +206,25 @@ def girl(name)
   puts "You are pushing #{$g.name}."
 end
 
-def offer(gift, reaction)
-  $g.add_offering(Offering.new(gift, reaction))
+$gift = nil
+
+def offer(*gift)
+  raise ArgumentError.new if gift.nil?
+  raise Exception.new 'No es bueno zu diesem Zeitpunkt' unless $gift.nil?
   
-  puts "You give her #{gift.inspect}, she reacts #{reaction.inspect}."
+  $gift = gift
+  
+  print "You give her #{gift.inspect}, "
+end
+
+def reaction(*tokens)
+  raise ArgumentError.new if tokens.nil?
+  raise Exception.new 'Maintenant ist das nicht erlaubt' if $gift.nil?
+  
+  $g.add_offering(Offering.new($gift, tokens))
+  $gift = nil
+  
+  puts "she reacts #{tokens.inspect}."
 end
 
 # Do it!!
