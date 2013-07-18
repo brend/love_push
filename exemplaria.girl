@@ -1,0 +1,19 @@
+girl 'Exemplaria'
+
+offer Kawaii, Adaruto, Dougu
+reaction X, E, E
+
+offer Interia, Adaruto, Goujasu, Chinpin
+reaction O, X, E, E
+
+offer Kuuru, Shumi, Chinpin, Fashon
+reaction O, X, X, E
+
+offer Adaruto, Kawaii, Chinpin
+reaction X, E, E
+
+offer Chinpin, Dougu, Goujasu, Kawaii
+reaction E, E, E, E
+
+offer Tabemono, Fashon, Dougu
+reaction O, O, E
