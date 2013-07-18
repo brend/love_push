@@ -42,12 +42,14 @@ class Offering
   end
   
   def restrict
-    # create this offering's tree
+    # create and prune this offering's tree
     t = span_tree
+        
     t.prune(reaction)
+    
     # restrict possible values according to this offering's tree
     t.possible_values.each do |var, possible_tokens|
-      var.possible_values = possible_tokens.to_a
+      var.possible_values = possible_tokens.to_a    
     end
   end
 end
@@ -89,6 +91,10 @@ class Tree
     @children[token] = tree
   end
   
+  def dead_end?
+    @children.empty?
+  end
+  
   def to_s
     "(#{label}, #{children.inspect})"
   end
@@ -102,6 +108,7 @@ class Tree
       change = false
       change |= prune_impossible_values
       change |= prune_impossible_paths(available_tokens)
+      change |= prune_dead_ends
       return unless change
     end
   end
@@ -135,6 +142,21 @@ class Tree
       remaining_tokens = available_tokens.clone
       remaining_tokens.delete_at(remaining_tokens.index(token) || remaining_tokens.length)
       change |= child.prune_impossible_paths(remaining_tokens) unless child.nil?
+    end
+    
+    change
+  end
+  
+  def prune_dead_ends
+    child_count_before = @children.count
+    
+    @children.reject! {|token, child| child != nil && child.dead_end?}
+    
+    child_count_after = @children.count
+    change = child_count_before != child_count_after
+    
+    @children.each do |token, child|
+      change |= child.prune_dead_ends unless child.nil?
     end
     
     change
