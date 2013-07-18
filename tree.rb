@@ -1,4 +1,4 @@
-class Tree
+class Node
   attr_reader :label, :children
   
   def initialize(var)
@@ -43,7 +43,7 @@ class Tree
     
     # prune children
     @children.each do |token, child| 
-      change |= child.prune_impossible_values unless child.nil?
+      change |= child.prune_impossible_values
     end
     
     change
@@ -59,8 +59,8 @@ class Tree
     
     @children.each do |token, child|
       remaining_tokens = available_tokens.clone
-      remaining_tokens.delete_at(remaining_tokens.index(token) || remaining_tokens.length)
-      change |= child.prune_impossible_paths(remaining_tokens) unless child.nil?
+      remaining_tokens.delete_at(remaining_tokens.index(token))
+      change |= child.prune_impossible_paths(remaining_tokens)
     end
     
     change
@@ -69,13 +69,13 @@ class Tree
   def prune_dead_ends
     child_count_before = @children.count
     
-    @children.reject! {|token, child| child != nil && child.dead_end?}
+    @children.reject! {|token, child| child.dead_end?}
     
     child_count_after = @children.count
     change = child_count_before != child_count_after
     
     @children.each do |token, child|
-      change |= child.prune_dead_ends unless child.nil?
+      change |= child.prune_dead_ends
     end
     
     change
@@ -86,16 +86,34 @@ class Tree
     result = {}
     
     until nodes.empty?
-      n = nodes.pop
-      
-      next if n.nil?
-      
-      l = n.label
-      result[l] = Set.new unless result.include?(l)
-      result[l] += n.children.keys
-      nodes += n.children.values
+      nodes.pop.add_possible_values(nodes, result)      
     end
     
     result
+  end
+  
+  def add_possible_values(nodes, result)
+    result[label] = Set.new unless result.include?(label)
+    result[label] += children.keys
+    nodes.insert(0, *children.values)
+  end
+end
+
+class Leaf
+  def dead_end?
+    false
+  end
+  
+  def prune_impossible_values
+  end
+  
+  def prune_impossible_paths(tokens)
+    raise Exception.new("Leaf has been reached, tokens are not empty: #{tokens}") unless tokens.empty?
+  end
+  
+  def prune_dead_ends
+  end
+  
+  def add_possible_values(nodes, result)
   end
 end

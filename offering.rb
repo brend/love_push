@@ -17,11 +17,11 @@ class Offering
   end
   
   def span_tree_rec(variables)
-    return nil if variables.empty?
+    return Leaf.new if variables.empty?
     
     root_variable = variables.pop
     
-    t = Tree.new(root_variable)
+    t = Node.new(root_variable)
     
     [O, X, E].each do |token|    
       # Note: Don't move ct out of the block, because each subtree must be unique
