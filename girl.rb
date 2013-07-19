@@ -13,12 +13,12 @@ class Girl
   end
   
   def analyze
-    1.upto(500) do
+    while true
       change = false
       @offerings.each do |o|
         change |= o.restrict
       end
-      # return unless change
+      return unless change
     end
   end
   

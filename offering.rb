@@ -43,8 +43,13 @@ class Offering
     t.prune(reaction)
     
     # restrict possible values according to this offering's tree
+    change = false
+    
     t.possible_values.each do |var, possible_tokens|
+      change |= possible_tokens.to_a.sort != var.possible_values.to_a.sort
       var.possible_values = possible_tokens.to_a    
     end
+    
+    change
   end
 end
